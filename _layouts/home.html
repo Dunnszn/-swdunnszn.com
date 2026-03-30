@@ -3,20 +3,37 @@ layout: default
 title: Home
 ---
 
-{% for post in paginator.posts %}
-  {% include featured-post.html %}
-{% endfor %}
+<section class="hero">
+  <div class="hero__content">
+    <p class="hero__eyebrow">Cybersecurity • Systems • Endpoint Operations</p>
+    <h1 class="hero__title">Building secure, reliable enterprise environments.</h1>
+    <p class="hero__text">
+      I document real work across incident support, endpoint administration,
+      remediation, and technical troubleshooting.
+    </p>
+  </div>
+</section>
 
-<!-- Pagination links -->
+<section class="post-grid">
+  {% for post in paginator.posts %}
+    {% include featured-post.html %}
+  {% endfor %}
+</section>
+
 <div class="pagination">
   {% if paginator.next_page %}
-    <a class="pagination-button pagination-active next" href="{{ site.github.url }}{{ paginator.next_page_path }}">{{ site.data.settings.pagination.previous_page }}</a>
+    <a href="{{ paginator.next_page_path | relative_url }}">
+      {{ site.data.settings.pagination.previous_page }}
+    </a>
   {% else %}
-    <span class="pagination-button">{{ site.data.settings.pagination.previous_page }}</span>
+    <span>{{ site.data.settings.pagination.previous_page }}</span>
   {% endif %}
+
   {% if paginator.previous_page %}
-    <a class="pagination-button pagination-active" href="{{ site.baseurl }}{{ paginator.previous_page_path }}">{{ site.data.settings.pagination.next_page }}</a>
+    <a href="{{ paginator.previous_page_path | relative_url }}">
+      {{ site.data.settings.pagination.next_page }}
+    </a>
   {% else %}
-    <span class="pagination-button">{{ site.data.settings.pagination.next_page }}</span>
+    <span>{{ site.data.settings.pagination.next_page }}</span>
   {% endif %}
 </div>
