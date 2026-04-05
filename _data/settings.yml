@@ -14,6 +14,7 @@ social:
 pagination:
   next_page: 'Newer'
   previous_page: 'Older'
-  sharing_button_prompt: 'Share this page'
-  related_posts: 'Related posts'
-  post_date_prefix: 'Written on'
+
+sharing_button_prompt: 'Share this page'
+related_posts: 'Related posts'
+post_date_prefix: 'Written on'
