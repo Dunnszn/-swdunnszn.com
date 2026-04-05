@@ -18,16 +18,13 @@ title: Home
   </div>
 </section>
 
-<section class="home-sections">
-  <a class="section-card" href="{{ '/about/' | relative_url }}">
-    <img class="section-card__image" src="{{ '/assets/images/posts/SDAbout.jpeg' | relative_url }}" alt="About Stephen Dunn">
-    <div class="section-card__content">
-      <h2>About</h2>
-      <p>Background, experience, and technical focus.</p>
-    </div>
-  </a>
-
-  <a class="section-card section-card--about" href="{{ '/about/' | relative_url }}"></a>
+<a class="section-card section-card--about" href="{{ '/about/' | relative_url }}">
+  <img class="section-card__image" src="{{ '/assets/images/posts/SDAbout.jpeg' | relative_url }}" alt="About Stephen Dunn">
+  <div class="section-card__content">
+    <h2>About</h2>
+    <p>Details regarding my work experience and journey in the information security landscape</p>
+  </div>
+</a>
 
   <a class="section-card" href="{{ '/projects/' | relative_url }}">
     <img class="section-card__image" src="{{ '/assets/images/posts/HomeProjects.png' | relative_url }}" alt="Projects">
