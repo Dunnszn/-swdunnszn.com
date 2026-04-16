@@ -5,6 +5,7 @@ author: "Stephen Dunn"
 categories: documentation
 tags: [Bitlocker, InTune, Azure Active Directory Domain Services]
 image:
+excerpt: "My personal experience troubleshooting and resolving Bitlocker policy configuration enforcement and deployment errors."
 ---
 
 
