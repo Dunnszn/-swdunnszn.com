@@ -9,7 +9,7 @@ highlighter: rouge
 permalink: /:title/
 
 title: "Stephen Dunn"
-description: "Cybersecurity and Systems Portfolio Page"
+description: "MDM, Cybersecurity and Systems Portfolio Page"
 author: "Stephen Dunn"
 
 plugins:
