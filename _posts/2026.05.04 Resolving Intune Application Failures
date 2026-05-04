@@ -1,0 +1,163 @@
+---
+layout: post
+title: "Resolving Intune Application Deployment Failures Caused by Windows Update Compliance Drift"
+author: "Stephen Dunn"
+categories: documentation
+tags: [, InTune, MDM Software Deployment, Windows Version Enforcement]
+image: /assets/images/posts/
+excerpt: "Real life scenario regarding InTune software deployment, and OS Version drift."
+---
+
+# Resolving Intune Application Deployment Failures Caused by Windows Update Compliance Drift
+
+## Overview
+
+During a remote access / VPN migration project, a required replacement application was deployed to all Microsoft Intune-enrolled Windows 11 devices. The goal was to ensure users could continue working remotely before the previous remote access tool was fully phased out.
+
+The deployment included more than just installing the application. The new remote access workflow also required configuration details and a certificate to be present on managed devices so authorized users could securely access the required portal.
+
+Although the application was assigned broadly through Intune, a subset of devices failed to install the software correctly. This created a business continuity risk: once the previous remote access tool was retired, affected users would lose the ability to work remotely.
+
+---
+
+## The Problem
+
+Several devices appeared to be properly enrolled and compliant in Intune, but the required application was missing from the endpoint.
+
+The issue presented inconsistently across devices:
+
+* Some devices showed **failed** installation status.
+* Some devices showed **not applicable**.
+* Some devices appeared as **successful**, even though the application or required certificate was not actually present.
+* Users began submitting requests because the software was missing from their devices.
+
+This created confusion because the devices were assigned to the correct deployment group and appeared healthy from certain Intune views.
+
+---
+
+## Environment
+
+The issue occurred in a large enterprise environment with:
+
+* 3,000+ managed endpoints
+* Windows 11 devices
+* Microsoft Intune for MDM and application deployment
+* A phased migration from one remote access tool to another
+* Windows Update ring policies defining the approved production OS version range
+
+Sensitive software names, internal group names, and exact build numbers have been intentionally omitted.
+
+---
+
+## Investigation
+
+I started by validating the basic Intune deployment path:
+
+* Confirmed the application was assigned to all intended devices
+* Verified affected devices were enrolled in Intune
+* Checked device group membership
+* Reviewed application install status
+* Compared device compliance views against the app deployment status
+
+The confusing part was that Intune showed conflicting signals. In the device compliance dashboard, the expected configuration policies appeared compliant. However, another compliance view showed errors. When drilling into the default compliance details, the individual policies still appeared compliant.
+
+At this point, the issue did not look like a simple assignment problem.
+
+To move beyond the UI-level view, I exported Intune report data and reviewed the affected devices in Excel. I compared application deployment status against Windows OS version data and filtered devices based on the approved Windows 11 production version range.
+
+That revealed the common pattern: affected devices were outside the expected Windows Update ring target range. Some devices were below the approved version, while others had moved above the defined target version.
+
+---
+
+## Root Cause Pattern
+
+The affected devices shared a common condition:
+
+> Devices outside the approved Windows Update ring version range were not reliably receiving the required application deployment, despite appearing compliant in certain Intune device views and being assigned to the correct installation group.
+
+The exact internal mechanism behind the deployment behavior was not fully confirmed, but the operational pattern was clear. Devices outside the approved OS version range consistently appeared in the failed, not applicable, or false-positive successful install population. Once rebuilt, re-enrolled, and brought back into the approved Windows 11 version range, the deployment issues stopped and the application installed automatically.
+
+---
+
+## Resolution
+
+After identifying the pattern, I prepared a report showing devices with application deployment failures and correlated those failures against OS version drift.
+
+The remediation path included:
+
+* Reporting the affected device population to management
+* Identifying devices outside the approved Windows 11 production version range
+* Coordinating rebuilds for affected endpoints
+* Re-enrolling devices into Intune
+* Bringing devices back into compliance with the approved update ring target
+* Validating that the application and required components installed automatically after rebuild and enrollment
+
+This approach shifted the issue from individual manual software installs to a broader endpoint compliance and lifecycle remediation effort.
+
+---
+
+## Impact
+
+The analysis identified roughly 200 affected devices and gave management a clear path to remediation.
+
+Key outcomes included:
+
+* Supported continuity of the remote access migration
+* Reduced confusion around conflicting Intune compliance and install status signals
+* Helped prevent users from losing remote access when the previous tool was retired
+* Created a repeatable reporting process for identifying OS version drift
+* Improved visibility into how Windows Update ring compliance can affect deployment reliability
+* Helped the team focus remediation efforts on rebuilds and re-enrollment rather than repeated manual installs
+
+---
+
+## Key Takeaways
+
+This case reinforced that successful application deployment in Intune depends on more than assignment groups and surface-level compliance status.
+
+Endpoint management requires understanding the full dependency chain:
+
+* Device enrollment
+* Application assignment
+* Detection logic
+* Certificate deployment
+* OS version alignment
+* Update ring targeting
+* Compliance reporting
+* Real endpoint state
+
+The most important lesson was that Intune dashboard views can sometimes appear healthy while endpoint state and deployment behavior tell a different story. Exporting report data, filtering for patterns, and validating against the OS version baseline provided the evidence needed to move from guesswork to a targeted remediation plan.
+
+---
+
+## Skills Demonstrated
+
+* Microsoft Intune troubleshooting
+* Windows Update ring analysis
+* Application deployment validation
+* Endpoint compliance investigation
+* Report export and data filtering
+* Root cause analysis
+* Cross-team communication
+* Endpoint migration support
+* Enterprise remediation coordination
+
+---
+
+## Short Version for a Project Card
+
+**Resolving Intune Application Deployment Failures Caused by Windows Update Compliance Drift**
+Investigated a remote access application deployment failure affecting approximately 200 Windows 11 endpoints. Although devices appeared compliant in Intune and were assigned to the correct deployment group, exported reporting revealed a pattern of OS version drift outside the approved Windows Update ring target range. Built and presented a device report to management, prompting rebuild and re-enrollment efforts that restored compliance and allowed the required application and certificate components to install automatically.
+
+---
+
+## Resume Bullet Source Material
+
+You can turn this into resume bullets like:
+
+* Diagnosed Intune application deployment failures affecting approximately 200 Windows 11 endpoints by correlating install status, compliance views, and OS version data through exported reporting.
+* Identified Windows Update ring drift as a common factor in failed, not applicable, and false-positive successful application deployments during a remote access tool migration.
+* Built and presented endpoint remediation reports to management, supporting rebuild and re-enrollment efforts that restored application deployment reliability.
+* Supported enterprise remote access migration by troubleshooting Intune deployment dependencies, certificate delivery, compliance status, and endpoint readiness.
+
+This is a strong case study. It shows you are not just “using Intune”; you are diagnosing enterprise endpoint behavior across policy, reporting, OS state, and business impact.
