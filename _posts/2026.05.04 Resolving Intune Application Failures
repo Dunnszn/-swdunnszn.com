@@ -143,21 +143,3 @@ The most important lesson was that Intune dashboard views can sometimes appear h
 * Enterprise remediation coordination
 
 ---
-
-## Short Version for a Project Card
-
-**Resolving Intune Application Deployment Failures Caused by Windows Update Compliance Drift**
-Investigated a remote access application deployment failure affecting approximately 200 Windows 11 endpoints. Although devices appeared compliant in Intune and were assigned to the correct deployment group, exported reporting revealed a pattern of OS version drift outside the approved Windows Update ring target range. Built and presented a device report to management, prompting rebuild and re-enrollment efforts that restored compliance and allowed the required application and certificate components to install automatically.
-
----
-
-## Resume Bullet Source Material
-
-You can turn this into resume bullets like:
-
-* Diagnosed Intune application deployment failures affecting approximately 200 Windows 11 endpoints by correlating install status, compliance views, and OS version data through exported reporting.
-* Identified Windows Update ring drift as a common factor in failed, not applicable, and false-positive successful application deployments during a remote access tool migration.
-* Built and presented endpoint remediation reports to management, supporting rebuild and re-enrollment efforts that restored application deployment reliability.
-* Supported enterprise remote access migration by troubleshooting Intune deployment dependencies, certificate delivery, compliance status, and endpoint readiness.
-
-This is a strong case study. It shows you are not just “using Intune”; you are diagnosing enterprise endpoint behavior across policy, reporting, OS state, and business impact.
